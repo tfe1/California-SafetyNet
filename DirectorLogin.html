@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYE7SG2Z8R"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CYE7SG2Z8R');
+    </script>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Login - California Emergency Dashboard</title>
+    <!-- <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .login-container {
+            width: 350px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    </style> -->
+    <link rel="stylesheet" href="IndexStyles.css">
+</head>
+
+<body>
+<header id="header">
+    <script type="text/javascript" src="NavBar.js"></script>
+</header>
+
+
+
+<div class="login-container">
+    <h2>Director Login</h2>
+    <form action="server-endpoint-here" method="post">
+        <label for="department">Department:</label>
+        <select id="department" name="department">
+            <option value="Sheriff/Security">Sheriff/Security</option>
+            <option value="Weather">Weather</option>
+            <option value="Health">Health</option>
+            <option value="Fire">Fire</option>
+        </select>
+        <label for="county">County:</label>
+        <select id="county" name="county">
+            <option value="Alameda">Alameda</option>
+            <option value="Alpine">Alpine</option>
+            <option value="Amador">Amador</option>
+            <option value="Butte">Butte</option>
+            <option value="Calaveras">Calaveras</option>
+            <option value="Colusa">Colusa</option>
+            <option value="Contra-Costa">Contra-Costa</option>
+            <option value="Del Norte">Del Norte</option>
+            <option value="El Dorado">El Dorado</option>
+            <option value="Fresno">Fresno</option>
+            <option value="Glenn">Glenn</option>
+            <option value="Humboldt">Humboldt</option>
+            <option value="Imperial">Imperial</option>
+            <option value="Inyo">Inyo</option>
+            <option value="Kern">Kern</option>
+            <option value="Kings">Kings</option>
+            <option value="Lake">Lake</option>
+            <option value="Lassen">Lassen</option>
+            <option value="Los Angeles">Los Angeles</option>
+            <option value="Madera">Madera</option>
+            <option value="Marin">Marin</option>
+            <option value="Mariposa">Mariposa</option>
+            <option value="Mendocino">Mendocino</option>
+            <option value="Merced">Merced</option>
+            <option value="Modoc">Modoc</option>
+            <option value="Mono">Mono</option>
+            <option value="Monterey">Monterey</option>
+            <option value="Napa">Napa</option>
+            <option value="Nevada">Nevada</option>
+            <option value="Orange">Orange</option>
+            <option value="Placer">Placer</option>
+            <option value="Plumas">Plumas</option>
+            <option value="Riverside">Riverside</option>
+            <option value="Sacramento">Sacramento</option>
+            <option value="San Benito">San Benito</option>
+            <option value="San Bernardino">San Bernardino</option>
+            <option value="San Diego">San Diego</option>
+            <option value="San Francisco">San Francisco</option>
+            <option value="San Joaquin">San Joaquin</option>
+            <option value="San Luis Obispo">San Luis Obispo</option>
+            <option value="San Mateo">San Mateo</option>
+            <option value="Santa Barbara">Santa Barbara</option>
+            <option value="Santa Clara">Santa Clara</option>
+            <option value="Santa Cruz">Santa Cruz</option>
+            <option value="Shasta">Shasta</option>
+            <option value="Sierra">Sierra</option>
+            <option value="Siskiyou">Siskiyou</option>
+            <option value="Solano">Solano</option>
+            <option value="Sonoma">Sonoma</option>
+            <option value="Stanislaus">Stanislaus</option>
+            <option value="Sutter">Sutter</option>
+            <option value="Tehama">Tehama</option>
+            <option value="Trinity">Trinity</option>
+            <option value="Tulare">Tulare</option>
+            <option value="Tuolumne">Tuolumne</option>
+            <option value="Ventura">Ventura</option>
+            <option value="Yolo">Yolo</option>
+            <option value="Yuba">Yuba</option>
+        </select>
+        <label for="email">Email Address:</label>
+        <input id="email" name="email" required type="text">
+        <label for="password">Password:</label>
+        <input id="password" name="password" required type="password">
+        <input type="submit" value="Login">
+    </form>
+</div>
+</body>
+<footer>
+    <p>
+        <a href="https://www.oag.ca.gov/privacy/ccpa" target="_blank">California Consumer Privacy Act (CCPA) </a>
+    </p>
+</footer>
+</html>

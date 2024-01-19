@@ -1,0 +1,27 @@
+[
+  {
+    "county": "Los Angeles",
+    "details": "Several health clinics available",
+    "type": "health"
+  },
+  {
+    "county": "Los Angeles",
+    "details": "Fire stations located throughout the county",
+    "type": "fire"
+  },
+  {
+    "county": "San Diego",
+    "details": "New weather alert system in place",
+    "type": "weather"
+  },
+  {
+    "county": "San Francisco",
+    "details": "Free health checkups this month",
+    "type": "health"
+  },
+  {
+    "county": "Sacramento",
+    "details": "Fire safety week starts next Monday",
+    "type": "fire"
+  }
+]

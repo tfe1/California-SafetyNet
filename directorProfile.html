@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYE7SG2Z8R"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CYE7SG2Z8R');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>California SafetyNet</title>
+  <link rel="stylesheet" href="IndexStyles.css"> <!-- Linking to the external stylesheet -->
+  <!-- <link rel="stylesheet" href="application/VerticalPrototype/combined_styles.css"> -->
+
+</head>
+
+<body>
+<header id="header">
+  <script type="text/javascript" src="NavBar.js"></script>
+</header>
+
+  <!-- Alert input -->
+  <div class="alert-box search-container">
+    <form id="alertForm">
+      <input type="text" name="Alert_Message" placeholder="Input alert">
+      <input type="hidden" id="Triggered_By" name="Triggered_By">
+      <input type="hidden" id="County_ID" name="County_ID">
+      <input type="hidden" id="Metric_ID" name="Metric_ID">
+      <select id="Metric_ID_Select" name="Metric_ID_Select">
+        <option id="securitySelect" value="1">Security</option>
+        <option id="weatherSelect" value="2">Weather</option>
+        <option id="healthSelect" value="3">Health</option>
+        <option id="fireSelect" value="4">Wildfire</option>
+      </select>
+      <button type="submit">Enter Alert</button>
+    </form>
+  </div>
+
+  <!-- Linking the JavaScript file -->
+  <script src="triggerAlert.js"></script>
+  <script src="DirectorProfile.js"></script>
+
+</body>
+<footer>
+  <p>
+      <a href="https://www.oag.ca.gov/privacy/ccpa" target="_blank">California Consumer Privacy Act (CCPA) </a>
+  </p>
+</footer>
+</html>

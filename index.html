@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CYE7SG2Z8R"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CYE7SG2Z8R');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California SafetyNet</title>
+    <link rel="stylesheet" href="IndexStyles.css">
+    <!-- Include Google Maps API -->
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8ENvg9iUPWyM7O5i5AvT8VN7SN38Lyfo&callback=initMap">
+    </script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        /* Style for the location button */
+        .locate-button {
+            margin-top: 10px; /* Adds a little space above the button */
+            background: #fff;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+    </style>
+    
+</head>
+<body>
+<header id="header">
+    <script type="text/javascript" src="NavBar.js"></script>
+</header>
+
+<!-- Search Form -->
+<div class="search-container">
+    <form id="searchForm">
+        <label for="searchInput">Search:</label><input id="searchInput" placeholder="Search..." type="text">
+        <label for="searchParam">Choose a parameter:</label>
+        <select id="searchParam">
+            <option value="all">all</option>
+            <option value="health">health</option>
+            <option value="fire">fire</option>
+            <option value="weather">weather</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<button onclick="locateUser()">Detect My Current Location</button>
+
+<!-- Map Container -->
+<div id="map">
+
+</div>
+
+<div id="results">
+    <!-- County search results will be populated here via JavaScript -->
+</div>
+
+<div id="metricsResults">
+    <!-- Metrics search results will be populated here via JavaScript -->
+</div>
+
+<script>
+    let map;
+    let marker;
+
+    function initMap() {
+        let sfLocation = {lat: 37.7749, lng: -122.4194}; // San Francisco coordinates
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: sfLocation
+        });
+        marker = new google.maps.Marker({
+            position: sfLocation,
+            map: map
+        });
+    }
+
+    function locateUser() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                let userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setCenter(userLocation);
+                marker.setPosition(userLocation);
+            }, function() {
+                alert("Geolocation failed or it is not supported by this browser.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function isValidCoordinate(value) {
+        return !isNaN(parseFloat(value)) && isFinite(value);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const searchParam = document.getElementById('searchParam');
+        const resultsDiv = document.getElementById('results');
+
+        searchForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const searchTerm = searchInput.value.trim();
+            const selectedParam = searchParam.value;
+
+            if (!searchTerm) {
+                // Default to San Francisco coordinates
+                map.setCenter({lat: 37.7749, lng: -122.4194});
+                marker.setPosition({lat: 37.7749, lng: -122.4194});
+                resultsDiv.innerHTML = "No search term entered. Defaulting to San Francisco.";
+                return;
+            }
+
+            fetch(`http://localhost:3000/api/county?searchTerm=${searchTerm}&searchParam=${selectedParam}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultsDiv.innerHTML = "";
+                    if (data.length === 0) {
+                        resultsDiv.innerHTML = "No county results found.";
+                        map.setCenter({lat: 37.7749, lng: -122.4194});
+                        marker.setPosition({lat: 37.7749, lng: -122.4194});
+                    } else {
+                        console.log(data);
+                        const county = data.county_information
+                        const result = document.createElement('div');
+                        result.innerHTML = `
+              <div>County Name: ${county.County_Name}</div>
+              <div>Latitude: ${county.Latitude}</div>
+              <div>Longitude: ${county.Longitude}</div>
+              <img src="${county.Image_Path}" alt="Image" width="150" height="150">
+          `;
+
+                        const alerts = data.alerts;
+                        const alertContainer = document.createElement('div');
+                        alerts.forEach((alert) => {
+                            let alertType;
+                            switch (alert.Metric_ID){
+                                case 2:
+                                    alertType = "Weather"
+                                    break;
+                                case 3:
+                                    alertType = "Health"
+                                    break;
+                                case 4:
+                                    alertType = "Fire"
+                                    break;
+                                default:
+                                    alertType = "General"
+                                    break;
+                            }
+                            const newAlert = document.createElement('div');
+                            newAlert.innerHTML = `
+              <br />
+              <div>Alert Type: ${alertType}</div>
+              <div>Alert Description: ${alert.Alert_Message}</div>
+              <div>Alert Date: ${alert.Timestamp}</div>
+              <br />
+            `;
+                            alertContainer.appendChild(newAlert)
+
+                        })
+                        resultsDiv.appendChild(result);
+                        resultsDiv.appendChild(alertContainer);
+                        // Set the map to the first result's location
+                        if (isValidCoordinate(county.Latitude) && isValidCoordinate(county.Longitude)) {
+                            let location = {lat: parseFloat(county.Latitude), lng: parseFloat(county.Longitude)};
+                            map.setCenter(location);
+                            marker.setPosition(location);
+                        } else {
+                            console.error('Invalid coordinates:', county.Latitude, county.Longitude);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching county data:', error);
+                    resultsDiv.innerHTML = "Error fetching data.";
+                });
+        });
+    });
+</script>
+</body>
+<footer>
+    <p>
+        <a href="https://www.oag.ca.gov/privacy/ccpa" target="_blank">California Consumer Privacy Act (CCPA) </a>
+    </p>
+</footer>
+</html>
